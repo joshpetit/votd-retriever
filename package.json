@@ -1,0 +1,37 @@
+{
+  "name": "votd-retriever",
+  "version": "1.0.0",
+  "description": "Retrieve the verse of the day from different sites",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshpetit/votd-retriever.git"
+  },
+  "keywords": [
+    "verse",
+    "of",
+    "the",
+    "day",
+    "verse-of-the-day",
+    "verses-of-the-day",
+    "verse",
+    "bible",
+    "youversion",
+    "christian",
+    "christianity",
+    "jesus",
+    "god",
+    "word",
+    "god",
+    "lord"
+  ],
+  "author": "Joshua Petitma",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joshpetit/votd-retriever/issues"
+  },
+  "homepage": "https://github.com/joshpetit/votd-retriever#readme"
+}
