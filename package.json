@@ -33,5 +33,11 @@
   "bugs": {
     "url": "https://github.com/joshpetit/votd-retriever/issues"
   },
-  "homepage": "https://github.com/joshpetit/votd-retriever#readme"
+  "homepage": "https://github.com/joshpetit/votd-retriever#readme",
+  "devDependencies": {
+    "@types/node-fetch": "^2.5.7"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
 }
