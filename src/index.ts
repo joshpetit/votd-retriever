@@ -8,15 +8,15 @@ export class Votd {
     }
 
     initializeKeys(apiKeys: APIKeys) {
-       this.apiKeys =  apiKeys;
+        this.apiKeys =  apiKeys;
     }
 
     /**
      * Requires an API Key to have been initialized
      * Activate one at https://developers.youversion.com/
      */
-    getYouVersion(): Promise<YouVersionVOTD> {
-        return new Promise<YouVersionVOTD>((resolve, reject) =>{
+    getYouVersion(): Promise<VOTD> {
+        return new Promise<VOTD>((resolve, reject) =>{
             fetch('https://developers.youversionapi.com/1.0/verse_of_the_day/1?version_id=1', {
                 headers: {
                     'X-YouVersion-Developer-Token': `${this.apiKeys.YouVersion}`,
@@ -25,7 +25,17 @@ export class Votd {
                 }
             })
                 .then((result) => result.json())
-                .then((json) => resolve(json))
+                .then((json) =>{
+                    let obj: YouVersionVOTD = json;
+                    let date = new Date();
+                    let response: VOTD = {
+                        verseRef: obj.verse.human_reference,
+                        imageURL: obj.image.url.substring(56),
+                        source: "YouVersion",
+                        date: `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`
+                    }
+                    resolve(response)
+                })
                 .catch(err => reject(err));
         })
     }
@@ -35,10 +45,10 @@ export class Votd {
      */
     getOurManna(): Promise<OurMannaVOTD> {
         return new Promise<OurMannaVOTD>((resolve, reject) => {
-        fetch('https://beta.ourmanna.com/api/v1/get/?format=json')
-            .then(res => res.json())
-            .then(res => resolve(res))
-            .catch(err => reject(err))
+            fetch('https://beta.ourmanna.com/api/v1/get/?format=json')
+                .then(res => res.json())
+                .then(res => resolve(res))
+                .catch(err => reject(err))
         })
     }
 
@@ -55,6 +65,8 @@ export class Votd {
         })
     }
 }
+let thing = new Votd()
+
 
 interface VOTD {
     source: string,
@@ -63,6 +75,7 @@ interface VOTD {
      */
     date: string,
     verseRef: string
+    imageURL?: string
 }
 
 
