@@ -43,11 +43,20 @@ export class Votd {
     /**
      * No API key required
      */
-    getOurManna(): Promise<OurMannaVOTD> {
-        return new Promise<OurMannaVOTD>((resolve, reject) => {
+    getOurManna(): Promise<VOTD> {
+        return new Promise<VOTD>((resolve, reject) => {
             fetch('https://beta.ourmanna.com/api/v1/get/?format=json')
                 .then(res => res.json())
-                .then(res => resolve(res))
+                .then(res =>{
+                    let temp: OurMannaVOTD = res;
+                    let date = new Date();
+                    let response: VOTD = {
+                        date: `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`,
+                        source: "OurManna",
+                        verseRef:  temp.verse.details.reference
+                    }
+                    resolve(response)
+                })
                 .catch(err => reject(err))
         })
     }
