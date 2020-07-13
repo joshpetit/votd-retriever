@@ -33,12 +33,25 @@ export class Votd {
     /**
      * No API key required
      */
-    getOurManna() {
+    getOurManna(): Promise<OurMannaVOTD> {
+        return new Promise<OurMannaVOTD>((resolve, reject) => {
         fetch('https://beta.ourmanna.com/api/v1/get/?format=json')
-            .then(res =>
-                res.json()
-            ).then(res => {
-            console.log(res)
+            .then(res => res.json())
+            .then(res => resolve(res))
+            .catch(err => reject(err))
+        })
+    }
+
+    getBibleOrg(): Promise<BibleOrgVOTD> {
+        return new Promise<BibleOrgVOTD>((resolve, reject) => {
+            fetch('https://labs.bible.org/api/?passage=votd&type=json')
+                .then(res => res.json())
+                .then(res =>{
+
+
+                    resolve(res)
+                })
+                .catch(err => reject(err))
         })
     }
 }
@@ -47,7 +60,17 @@ export class Votd {
 interface APIKeys {
     'YouVersion'?: string,
 }
-
+interface OurMannaVOTD {
+    verse: {
+        details: {
+            text: string
+            reference: string,
+            version: string,
+            verseurl: string
+        }
+        notice: string
+    }
+}
 interface YouVersionVOTD {
     day: number,
     image: {
@@ -61,4 +84,14 @@ interface YouVersionVOTD {
         html: null,
         url: string
     }
+}
+
+interface BibleOrgVOTD {
+    [index: number]: {
+        bookname: string,
+        chapter: number,
+        verse: number,
+        text: string
+    }
+
 }
