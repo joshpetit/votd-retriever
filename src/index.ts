@@ -56,6 +56,15 @@ export class Votd {
     }
 }
 
+interface VOTD {
+    source: string,
+    /**
+     * MM/DD/YYYY
+     */
+    date: string,
+    verseRef: string
+}
+
 
 interface APIKeys {
     'YouVersion'?: string,
