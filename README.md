@@ -1,5 +1,6 @@
 # Todo
 
+* Contact OurManna and ask whether they update their API
 * Look into more RSS feeds to return
 * Create Universal Return, possibly its own method
 * Add more of the easy api calls, then start parsing html :)

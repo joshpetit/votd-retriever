@@ -34,6 +34,7 @@ export class Votd {
                     let obj: YouVersionVOTD = json;
                     let date = new Date();
                     let response: VOTD = {
+                        mainPage: "https://www.bible.com",
                         verseRef: obj.verse.human_reference,
                         imageURL: obj.image.url.substring(56),
                         source: "YouVersion",
@@ -54,6 +55,7 @@ export class Votd {
                     let verse = res.rss.channel[0].item[0].title[0]
                     let date = new Date();
                     let votd: VOTD = {
+                        mainPage: "https://www.biblegateway.com/",
                         date: `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`,
                         source: "BibleGateway",
                         verseRef: verse
@@ -65,6 +67,8 @@ export class Votd {
     }
     /**
      * No API key required
+     *
+     * They seem to not update this endpoint
      */
     getOurManna(): Promise<VOTD> {
         return new Promise<VOTD>((resolve, reject) => {
@@ -74,6 +78,7 @@ export class Votd {
                     let temp: OurMannaVOTD = res;
                     let date = new Date();
                     let response: VOTD = {
+                        mainPage: "http://www.ourmanna.com/",
                         date: `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`,
                         source: "OurManna",
                         verseRef:  temp.verse.details.reference
@@ -100,6 +105,7 @@ export class Votd {
                         endingVerse = `-${startingVerse + votd.length - 1}`
                     }
                     let response: VOTD = {
+                        mainPage: "https://bible.org/",
                         verseRef: `${bookname} ${chapter}:${startingVerse}${endingVerse}`,
                         date: `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`,
                         source: "Bible.org"
@@ -110,11 +116,11 @@ export class Votd {
         })
     }
 }
-let thing = new Votd()
 
 
 interface VOTD {
     source: string,
+    mainPage: string,
     /**
      * MM/DD/YYYY
      */
