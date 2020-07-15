@@ -37,7 +37,7 @@ export class Votd {
                         verseRef: obj.verse.human_reference,
                         imageURL: obj.image.url.substring(56),
                         source: "YouVersion",
-                        date: `${date.getMonth() + 1}/${date.getDay()}/${date.getFullYear()}`
+                        date: `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`
                     }
                     resolve(response)
                 })
@@ -54,7 +54,7 @@ export class Votd {
                     let verse = res.rss.channel[0].item[0].title[0]
                     let date = new Date();
                     let votd: VOTD = {
-                        date: `${date.getUTCMonth() + 1}/${date.getUTCDay()}/${date.getUTCFullYear()}`,
+                        date: `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`,
                         source: "BibleGateway",
                         verseRef: verse
                     }
@@ -74,7 +74,7 @@ export class Votd {
                     let temp: OurMannaVOTD = res;
                     let date = new Date();
                     let response: VOTD = {
-                        date: `${date.getMonth() + 1}/${date.getDay()}/${date.getFullYear()}`,
+                        date: `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`,
                         source: "OurManna",
                         verseRef:  temp.verse.details.reference
                     }
@@ -101,7 +101,7 @@ export class Votd {
                     }
                     let response: VOTD = {
                         verseRef: `${bookname} ${chapter}:${startingVerse}${endingVerse}`,
-                        date: `${date.getMonth() + 1}/${date.getDay()}/${date.getFullYear()}`,
+                        date: `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`,
                         source: "Bible.org"
                     }
                     resolve(response)
