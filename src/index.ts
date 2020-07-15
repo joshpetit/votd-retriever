@@ -5,7 +5,8 @@ export class Votd {
     apiKeys: APIKeys;
 
     /**
-     *
+     * All of the methods use the most direct way of accessing the votd. Check the documentation to see
+     * what method is used or whether the endpoint is updated
      * @param keys - Some methods may require an API key
      */
     constructor(keys?: APIKeys) {
@@ -17,6 +18,7 @@ export class Votd {
     }
 
     /**
+     * Updated Regularly
      * Requires an API Key to have been initialized
      * Activate one at https://developers.youversion.com/
      */
@@ -46,6 +48,10 @@ export class Votd {
         })
     }
 
+    /**
+     * No API key required.
+     * RSS Feed which is updated regularly
+     */
     getBibleGateway(): Promise<VOTD>{
         return new Promise<VOTD>((resolve, reject) => {
             fetch('http://www.biblegateway.com/usage/votd/rss/votd.rdf?$version_id')
@@ -67,7 +73,6 @@ export class Votd {
     }
     /**
      * No API key required
-     *
      * They seem to not update this endpoint
      */
     getOurManna(): Promise<VOTD> {
@@ -89,6 +94,10 @@ export class Votd {
         })
     }
 
+    /**
+     * No API key required, but uses an API
+     * They update this regularly
+     */
     getBibleOrg(): Promise<VOTD> {
         return new Promise<VOTD>((resolve, reject) => {
             fetch('https://labs.bible.org/api/?passage=votd&type=json')
