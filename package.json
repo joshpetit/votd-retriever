@@ -35,9 +35,11 @@
   },
   "homepage": "https://github.com/joshpetit/votd-retriever#readme",
   "devDependencies": {
-    "@types/node-fetch": "^2.5.7"
+    "@types/node-fetch": "^2.5.7",
+    "@types/xml2js": "^0.4.5"
   },
   "dependencies": {
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "xml2js": "^0.4.23"
   }
 }

@@ -1,8 +1,13 @@
+import  {parseStringPromise} from 'xml2js'
 import fetch from 'node-fetch';
 
 export class Votd {
     apiKeys: APIKeys;
 
+    /**
+     *
+     * @param keys - Some methods may require an API key
+     */
     constructor(keys?: APIKeys) {
         this.apiKeys = keys || {};
     }
@@ -32,7 +37,7 @@ export class Votd {
                         verseRef: obj.verse.human_reference,
                         imageURL: obj.image.url.substring(56),
                         source: "YouVersion",
-                        date: `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`
+                        date: `${date.getMonth() + 1}/${date.getDay()}/${date.getFullYear()}`
                     }
                     resolve(response)
                 })
@@ -40,6 +45,24 @@ export class Votd {
         })
     }
 
+    getBibleGateway(): Promise<VOTD>{
+        return new Promise<VOTD>((resolve, reject) => {
+            fetch('http://www.biblegateway.com/usage/votd/rss/votd.rdf?$version_id')
+                .then(res => res.text())
+                .then(res => parseStringPromise(res))
+                .then(res =>{
+                    let verse = res.rss.channel[0].item[0].title[0]
+                    let date = new Date();
+                    let votd: VOTD = {
+                        date: `${date.getUTCMonth() + 1}/${date.getUTCDay()}/${date.getUTCFullYear()}`,
+                        source: "BibleGateway",
+                        verseRef: verse
+                    }
+                    resolve(votd)
+                })
+                .catch(err => reject(err))
+        })
+    }
     /**
      * No API key required
      */
@@ -51,7 +74,7 @@ export class Votd {
                     let temp: OurMannaVOTD = res;
                     let date = new Date();
                     let response: VOTD = {
-                        date: `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`,
+                        date: `${date.getMonth() + 1}/${date.getDay()}/${date.getFullYear()}`,
                         source: "OurManna",
                         verseRef:  temp.verse.details.reference
                     }
@@ -61,14 +84,27 @@ export class Votd {
         })
     }
 
-    getBibleOrg(): Promise<BibleOrgVOTD> {
-        return new Promise<BibleOrgVOTD>((resolve, reject) => {
+    getBibleOrg(): Promise<VOTD> {
+        return new Promise<VOTD>((resolve, reject) => {
             fetch('https://labs.bible.org/api/?passage=votd&type=json')
                 .then(res => res.json())
                 .then(res =>{
 
-
-                    resolve(res)
+                    let votd: BibleOrgVOTD[] = res;
+                    let date = new Date();
+                    let bookname = votd[0].bookname;
+                    let chapter = votd[0].chapter;
+                    let startingVerse = votd[0].verse;
+                    let endingVerse = "";
+                    if (votd.length > 1) {
+                        endingVerse = `-${startingVerse + votd.length - 1}`
+                    }
+                    let response: VOTD = {
+                        verseRef: `${bookname} ${chapter}:${startingVerse}${endingVerse}`,
+                        date: `${date.getMonth() + 1}/${date.getDay()}/${date.getFullYear()}`,
+                        source: "Bible.org"
+                    }
+                    resolve(response)
                 })
                 .catch(err => reject(err))
         })
@@ -118,11 +154,9 @@ interface YouVersionVOTD {
 }
 
 interface BibleOrgVOTD {
-    [index: number]: {
         bookname: string,
         chapter: number,
         verse: number,
         text: string
-    }
-
 }
+
