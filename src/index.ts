@@ -5,9 +5,9 @@ export class Votd {
     apiKeys: APIKeys;
 
     /**
-     * All of the methods use the most direct way of accessing the votd. Check the documentation to see
+     * All of the methods use the most direct way of accessing the votd. Check the inline documentation to see
      * what method is used or whether the endpoint is updated
-     * @param keys - Some methods may require an API key
+     * @param keys - Some methods may require an API key, Currently only YouVersion Keys.
      */
     constructor(keys?: APIKeys) {
         this.apiKeys = keys || {};
@@ -18,8 +18,9 @@ export class Votd {
     }
 
     /**
-     * Updated Regularly
-     * Requires an API Key to have been initialized
+     * Also known as bible.com.
+     * Updated Regularly;
+     * Requires an API Key to have been initialized.
      * Activate one at https://developers.youversion.com/
      */
     getYouVersion(): Promise<VOTD> {
@@ -71,8 +72,9 @@ export class Votd {
                 .catch(err => reject(err))
         })
     }
+
     /**
-     * No API key required
+     * No API key required;
      * They seem to not update this endpoint
      */
     getOurManna(): Promise<VOTD> {
@@ -95,7 +97,7 @@ export class Votd {
     }
 
     /**
-     * No API key required, but uses an API
+     * No API key required, but uses an API;
      * They update this regularly
      */
     getBibleOrg(): Promise<VOTD> {
@@ -103,7 +105,6 @@ export class Votd {
             fetch('https://labs.bible.org/api/?passage=votd&type=json')
                 .then(res => res.json())
                 .then(res =>{
-
                     let votd: BibleOrgVOTD[] = res;
                     let date = new Date();
                     let bookname = votd[0].bookname;
@@ -128,7 +129,13 @@ export class Votd {
 
 
 interface VOTD {
+    /**
+     * The name of the site/company choosing specific VOTD.
+     */
     source: string,
+    /**
+     * The web homepage of the site creating the VOTD.
+     */
     mainPage: string,
     /**
      * MM/DD/YYYY
@@ -138,10 +145,10 @@ interface VOTD {
     imageURL?: string
 }
 
-
 interface APIKeys {
     'YouVersion'?: string,
 }
+
 interface OurMannaVOTD {
     verse: {
         details: {
@@ -153,6 +160,7 @@ interface OurMannaVOTD {
         notice: string
     }
 }
+
 interface YouVersionVOTD {
     day: number,
     image: {
