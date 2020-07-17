@@ -30,7 +30,13 @@ votd.getYouVersion()
 Response Format:
 ```
 interface VOTD {
+    /**
+     * The name of the site/company choosing specific VOTD.
+     */
     source: string,
+    /**
+     * The web homepage of the site creating the VOTD.
+     */
     mainPage: string,
     /**
      * MM/DD/YYYY
